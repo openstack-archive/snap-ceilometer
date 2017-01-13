@@ -1,0 +1,12 @@
+[uwsgi]
+wsgi-file = {{ snap }}/bin/ceilometer-api
+uwsgi-socket = {{ snap_common }}/run/ceilometer-admin.sock
+buffer-size = 65535
+http = 0.0.0.0:8777
+master = true
+enable-threads = true
+processes = 4
+thunder-lock = true
+plugins = python
+lazy-apps = true
+pyargv = --config-file={{ snap }}/etc/ceilometer/ceilometer.conf --config-dir={{ snap_common }}/etc/ceilometer.conf.d

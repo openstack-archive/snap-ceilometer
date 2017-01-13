@@ -1,0 +1,61 @@
+name: ceilometer
+version: ocata
+summary: OpenStack Data Collection Service (ceilometer)
+description: |
+  collected data to various targets including data stores and message queues.
+confinement: strict
+grade: devel
+
+apps:
+  api:
+    command: snap-openstack ceilometer-api
+    daemon: simple
+    plugs:
+      - network
+      - network-bind
+  collector:
+    command: snap-openstack ceilometer-collector
+    daemon: simple
+    plugs:
+      - network
+      - network-bind
+  agent-notification:
+    command: snap-openstack ceilometer-agent-notification
+    daemon: simple
+    plugs:
+      - network
+  agent-central:
+    command: snap-openstack ceilometer-polling --polling-namespaces central
+    daemon: simple
+    plugs:
+      - network
+      - network-bind
+
+parts:
+  ceilometer:
+    plugin: python
+    python-version: python2
+    source: https://tarballs.openstack.org/ceilometer/ceilometer-master.tar.gz
+    python-packages:
+      - pymysql
+      - python-memcached
+      - oslo.rootwrap
+      - uwsgi
+      - git+https://github.com/openstack-snaps/snap.openstack#egg=snap.openstack
+    constraints: https://raw.githubusercontent.com/openstack/requirements/master/upper-constraints.txt
+    build-packages:
+      - libffi-dev
+      - libssl-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - pkg-config
+      - gcc
+    install: |
+      $SNAPCRAFT_PART_INSTALL/bin/oslo-config-generator --config-file etc/ceilometer/ceilometer-config-generator.conf
+      mv etc/ceilometer/ceilometer.conf $SNAPCRAFT_PART_INSTALL/etc/ceilometer/ceilometer.conf
+  templates:
+    after:
+      - ceilometer
+    plugin: dump
+    source: snap
+
