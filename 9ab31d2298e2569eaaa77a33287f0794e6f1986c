@@ -1,0 +1,9 @@
+Code-Review+1: Dmitrii Shcherbakov <dmitrii.shcherbakov@canonical.com>
+Code-Review+2: James Page <james.page@canonical.com>
+Workflow+1: James Page <james.page@canonical.com>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Wed, 01 Feb 2017 10:07:12 +0000
+Reviewed-on: https://review.openstack.org/427594
+Project: openstack/snap-ceilometer
+Branch: refs/heads/master
